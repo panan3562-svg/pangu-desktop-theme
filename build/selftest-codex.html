@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>Codex 入口自测</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #171717; }
+  .fake-ui { position: absolute; inset: 0; color: #4a4a4a; font: 13px system-ui; padding: 24px; }
+</style>
+</head>
+<body>
+<div class="fake-ui">（模拟 ChatGPT 界面：验证开屏与常驻入口）</div>
+<script>
+  const q = new URLSearchParams(location.search);
+  localStorage.setItem('pangu-theme.config', JSON.stringify({ enabled: !q.get('ui'), everyLaunch: true }));
+</script>
+<script src="../shared/art.data.js"></script>
+<script src="../shared/engine.js"></script>
+<script src="../shared/ui.js"></script>
+<script src="../shared/entry-codex.js"></script>
+<script>
+  if (q.get('ui')) {
+    setTimeout(() => {
+      const chip = document.querySelector('[data-pangu-chip]');
+      if (chip) chip.click();
+      else document.body.insertAdjacentHTML('beforeend', '<div style="color:#f00;font:12px monospace">chip missing</div>');
+    }, 300);
+  }
+</script>
+</body>
+</html>

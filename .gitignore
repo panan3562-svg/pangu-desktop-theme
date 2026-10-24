@@ -1,0 +1,16 @@
+# 依赖与临时产物
+node_modules/
+*.pangu-bak
+cordis.patch.yml.pangu-bak
+
+# 截图 / 抽取出来的只读产物
+build/shots/
+build/asar-out/
+
+# 安装器生成的文件（含本机绝对路径）
+codex/pangu.vbs
+codex/launcher.log
+
+# 系统
+.DS_Store
+Thumbs.db

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>盘古开屏 · 预览</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #0e0f12; overflow: hidden; }
+  #hint { position: fixed; left: 12px; top: 12px; color: #6b6560; font: 11px ui-monospace, monospace; z-index: 1; }
+</style>
+</head>
+<body>
+<div id="hint"></div>
+<script src="../shared/art.data.js?v=2"></script>
+<script src="../shared/engine.js?v=2"></script>
+<script>
+  const q = new URLSearchParams(location.search);
+  const t = Number(q.get('t') || 0);
+  const brand = q.get('brand') || 'codex';
+  const theme = q.get('theme') || 'dark';
+  document.getElementById('hint').textContent = `brand=${brand} theme=${theme} t=${t}ms`;
+
+  const STRINGS = {
+    codex: { tagline: 'CODE IT POSSIBLE', platform: '盘古大模型 · Codex' },
+    dsh: { slogan: '让想法，即刻成形', tagline: 'MAKE IT REAL', platform: '盘古大模型 · DeepSeek Harness' },
+  };
+
+  const intro = createPangu({
+    brand,
+    theme,
+    pixelSlogan: brand === 'codex',
+    strings: STRINGS[brand],
+  });
+  intro.renderAt(t);
+
+  if (q.get('diag')) {
+    const size = (ART.slogans && ART.slogans.codex.sizes || []).find((s) => s.rows === 4);
+    let ones = 0;
+    if (size) {
+      const rows = size.bits;
+      for (const hex of rows) {
+        for (let x = 0; x < size.cols * 2; x++) {
+          const idx = hex.length - 1 - (x >> 2);
+          if (idx < 0) continue;
+          if ((parseInt(hex[idx], 16) >> (x & 3)) & 1) ones++;
+        }
+      }
+    }
+    const pre = document.createElement('pre');
+    pre.id = 'diag';
+    pre.style.cssText = 'position:fixed;left:0;top:300px;color:#0f0;font:12px monospace;z-index:9999999999;background:#000;padding:8px';
+    pre.textContent = JSON.stringify({
+      vw: innerWidth, vh: innerHeight,
+      hasArt: typeof ART, hasSlogans: !!(ART.slogans), brandSizes: size ? [size.rows, size.cols, size.bits.length] : null,
+      ones, canvas: [document.querySelector('[data-pangu-intro] canvas').width, document.querySelector('[data-pangu-intro] canvas').height],
+    });
+    document.body.appendChild(pre);
+  }
+</script>
+</body>
+</html>

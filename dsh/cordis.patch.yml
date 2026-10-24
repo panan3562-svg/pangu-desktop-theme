@@ -1,0 +1,5 @@
+# 盘古开屏主题：向当前 profile 挂载 dsh-pangu-theme。
+# Node 端只提供配置读写路由；动画在客户端 bundle（lib/client.js）里跑。
+- insert:
+    - id: pangu-theme
+      name: dsh-pangu-theme

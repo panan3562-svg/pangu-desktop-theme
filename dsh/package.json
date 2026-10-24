@@ -1,0 +1,23 @@
+{
+  "name": "dsh-pangu-theme",
+  "version": "0.1.0",
+  "private": true,
+  "description": "盘古 · 华为风格开屏动画（DSH 桌面版 / Web GUI），带应用内开关",
+  "type": "module",
+  "main": "lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true
+    }
+  },
+  "license": "MIT"
+}

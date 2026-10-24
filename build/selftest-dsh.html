@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh">
+<head>
+<meta charset="utf-8" />
+<title>DSH 客户端 bundle 自测</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #121317; }
+  .fake-ui { position: absolute; inset: 0; color: #3a3d47; font: 13px system-ui; padding: 24px; }
+  #status { position: fixed; top: 10px; left: 10px; z-index: 9999999999; color: #0f0; font: 11px monospace; }
+</style>
+</head>
+<body>
+<div class="fake-ui">（模拟 DSH 界面：这里只是背景，用来验证插件不会挡住真实 UI）</div>
+<div id="status"></div>
+<script>
+  const q = new URLSearchParams(location.search);
+  // ui=1 时关掉动画，单独验证常驻入口与面板
+  const store = { enabled: !q.get('ui'), everyLaunch: true };
+  window.__MODULES__ = [];
+  window.__ModuleLoader__ = { load: (m) => window.__MODULES__.push(m) };
+
+  const realFetch = window.fetch.bind(window);
+  window.fetch = async (url, init) => {
+    const u = String(url);
+    if (u.includes('/pangu-theme/config')) {
+      if (init && init.method === 'POST') Object.assign(store, JSON.parse(init.body || '{}'));
+      return new Response(JSON.stringify(store), { status: 200, headers: { 'content-type': 'application/json' } });
+    }
+    return realFetch(url, init);
+  };
+
+  document.getElementById('status').textContent = `dsh bundle | ui=${q.get('ui') || 0}`;
+  window.addEventListener('error', (e) => {
+    document.getElementById('status').textContent += ' | ERR: ' + e.message;
+  });
+</script>
+<script src="../dsh/lib/client.js"></script>
+<script>
+  // 模拟 cordis 客户端运行器：调用模块的 apply
+  const rec = window.__MODULES__[0];
+  const mod = rec.factory(() => ({}));
+  try { mod.apply({}); } catch (e) { document.getElementById('status').textContent += ' | apply error: ' + e.message; }
+
+  if (q.get('ui')) {
+    setTimeout(() => {
+      const chip = document.querySelector('[data-pangu-chip]');
+      if (!chip) { document.getElementById('status').textContent += ' | chip missing'; return; }
+      try { chip.click(); } catch (e) { document.getElementById('status').textContent += ' | click err: ' + e.message; return; }
+      setTimeout(() => {
+        const p = document.querySelector('[data-pangu-panel]');
+        if (!p) { document.getElementById('status').textContent += ' | panel=false'; return; }
+        const cs = getComputedStyle(p);
+        const rect = p.getBoundingClientRect();
+        document.getElementById('status').textContent +=
+          ` | panel=true rect=${Math.round(rect.left)},${Math.round(rect.top)},${Math.round(rect.width)},${Math.round(rect.height)} vis=${cs.visibility} disp=${cs.display} z=${cs.zIndex} bg=${cs.backgroundColor} op=${cs.opacity}`;
+      }, 50);
+    }, 300);
+  }
+</script>
+</body>
+</html>
