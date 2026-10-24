@@ -19,14 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-This project is a derivative work of pangu-cli-theme:
-
-  pangu-cli-theme — https://github.com/Lightly20110815/pangu-cli-theme
-  MIT License, Copyright (c) 2026 Lightly20110815
-
-The opening-animation design, the Huawei mark geometry (petal/wordmark
-polygons), the radial gradient parameters, and the bitmap slogans come from
-that project. See NOTICE.md for the exact scope of what was reused.

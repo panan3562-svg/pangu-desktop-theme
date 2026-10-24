@@ -34,3 +34,8 @@
 `HUAWEI` 名称、华为花瓣标志与 HUAWEI 字标是**华为技术有限公司的商标**，不在本项目 MIT 许可范围内，也不在上游 MIT 许可范围内。本项目是非官方爱好者作品，与华为、OpenAI、DeepSeek 均无关系。
 
 如果你要二次分发，请保留本文件与上游署名。
+
+## 许可证关系
+
+本项目代码以 MIT 发布（Copyright © 2026 panan，见 [LICENSE](LICENSE)），并且**包含上游的 MIT 许可**（Copyright © 2026 Lightly20110815，全文见上游仓库 LICENSE）。二者兼容，本项目对衍生部分同样以 MIT 授权。
+
