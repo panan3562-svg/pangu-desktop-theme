@@ -11,6 +11,9 @@ build/asar-out/
 codex/pangu.vbs
 codex/launcher.log
 
+# 打包产物（发布时作为 Release 附件，不入库）
+dist/
+
 # 系统
 .DS_Store
 Thumbs.db

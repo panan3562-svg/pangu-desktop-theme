@@ -22,6 +22,11 @@
 
 需要 Node 18+（仅安装脚本用到；应用侧不需要）。
 
+> **不想装 Node？** 直接下 [Releases](https://github.com/panan3562-svg/pangu-desktop-theme/releases) 里的打包版：
+> `pangu-dsh-v0.1.0.zip` 解压后双击 `安装.cmd`（PowerShell 安装，不需要 Node）；
+> `pangu-codex-v0.1.0.zip` 解压后双击 `启动.vbs`（自带 Node 运行时）。
+> 两个包都带 `使用说明.txt`，可以直接转给朋友。
+
 ### DeepSeek Harness
 
 ```bash
