@@ -1,5 +1,5 @@
 // 用临时 DSH_HOME 测 DSH 分发包里的 install.ps1（安装 / 卸载 / 幂等）
-import { mkdirSync, writeFileSync, readFileSync, existsSync, lstatSync, rmSync } from 'node:fs';
+import { mkdirSync, writeFileSync, readFileSync, existsSync, lstatSync, rmSync, readdirSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
@@ -49,7 +49,12 @@ console.log('block count:', (patch2.match(/pangu-theme \(managed\) >>>/g) || [])
 
 console.log('--- uninstall ---');
 console.log(run('-Uninstall').trim().slice(0, 300));
-console.log('link gone:', existsSync(link));
+// 用目录列举判断更可靠：Node 的 existsSync 对悬空目录联接可能给出过期结果
+const entries = readdirSync(join(prof, 'node_modules'));
+console.log('link gone:', !entries.includes('dsh-pangu-theme'));
 const patch3 = readFileSync(join(prof, 'cordis.patch.yml'), 'utf8');
 console.log('block gone:', !patch3.includes('pangu-theme (managed)'));
 console.log('user content kept:', patch3.includes('some-plugin'));
+
+// 插件源目录必须完好（卸载绝不能删到目标内容）
+console.log('plugin source intact:', existsSync(join(PKG, 'dsh', 'lib', 'client.js')));
