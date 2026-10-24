@@ -1,9 +1,10 @@
 // 用临时 DSH_HOME 测 DSH 分发包里的 install.ps1（安装 / 卸载 / 幂等）
 import { mkdirSync, writeFileSync, readFileSync, existsSync, lstatSync, rmSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
-const PKG = 'C:\\Users\\29130\\testing\\release\\pangu-desktop-theme\\dist\\pangu-dsh';
+// 测试对象是 build/make-packages.mjs 生成的 dist/pangu-dsh
+const PKG = join(resolve(import.meta.dirname, '..'), 'dist', 'pangu-dsh');
 const HOME = join(process.env.TEMP, 'pangu-install-test');
 rmSync(HOME, { recursive: true, force: true });
 
